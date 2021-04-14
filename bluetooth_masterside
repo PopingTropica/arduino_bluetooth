@@ -1,0 +1,34 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial BTSerial(2, 3);
+const int gasPin = A0;
+int GasValue;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  BTSerial.begin(9600);
+}
+
+void loop() {
+     int data;
+     GasValue = analogRead(gasPin);
+    if(GasValue >= 400 ){
+      data = 1;
+      digitalWrite(12, LOW);
+      digitalWrite(11, HIGH);
+      BTSerial.write(data);
+      Serial.println("High");
+   }
+
+    else{
+      data = 0;
+      digitalWrite(11, LOW);
+      digitalWrite(12, HIGH);
+      BTSerial.write(data);
+      Serial.println("Low");
+    }
+    Serial.print("Gasvalue = ");
+    Serial.println(GasValue);
+}
